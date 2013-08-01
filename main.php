@@ -50,8 +50,22 @@
 										<option value="a">a
 										<option value="a">a
 									</select>
-									
-									<select name="weith">
+									ขนาดจอ : 
+									<select name="screen">
+										<option value="a">a
+										<option value="a">a
+										<option value="a">a
+									</select>
+
+									ระบบปฏิบัติการ : 
+									<select name="os">
+										<option value="a">a
+										<option value="a">a
+										<option value="a">a
+									</select>
+
+									ราคา : 
+									<select name="price">
 										<option value="a">a
 										<option value="a">a
 										<option value="a">a
