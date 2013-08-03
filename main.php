@@ -232,6 +232,8 @@
 										<option value="90000.0-100000">90,000.0 - 100,000 B
 
 									</select>
+
+									<br><br><input type="submit" name="submit" value="ยืนยัน"/>
 								</form>
 							</center>
 						</fieldset>
@@ -245,5 +247,13 @@
 					</td>
 				</tr>
 			</table>
+
+			<?php
+				
+				if($_POST['submit']=="ยืนยัน"){
+					echo "hello";
+				}
+			?>
+
 	</body>
 </html>
