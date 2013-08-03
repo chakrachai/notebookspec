@@ -5,7 +5,6 @@
 		<link href="maincss.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
-
 		<div id="ext_container">
 		<div class="header_top clearfix">
 		<a id="logo"></a>
@@ -17,7 +16,7 @@
 						<fieldset>
 							<center>กรอกข้อมูลตามที่ต้องการ
 								<form method="post" action="#">
-									Brand : 
+									ค่ายผูจำหน่าย : 
 									<select name="cpu">
 
 									<?php
@@ -63,8 +62,8 @@
 											}
 										?>
 									</select>
-									<br>
-									Graphic Card : 
+
+									การ์ดจอ : 
 
 									<select name="gp">
 										<?php
@@ -87,45 +86,164 @@
 											}
 										?>
 									</select>
-									ความจุ HDD: 
 
+									<br>
+
+									ความจุ HDD: 
 									<select name="hddsize">
-										<option value="a">a
-										<option value="a">a
-										<option value="a">a
+									
+									<?php
+											$hddarray=array();
+											
+											$hddcmd = "swipl -q -f notebook.pl -g \"forall(notebooks(BRAND,VERSION,CPUNO,GPCARD,HDD,MEMORY,WEIGTH,SCREEN,OS,PRICE),writeln([HDD]))\",halt";
+											$output = shell_exec($hddcmd);
+											$output = explode("[", $output);
+											foreach ($output as $key => $value) {
+												$output[$key]=str_replace("]", "", $value);
+											}
+											sort($output,SORT_NUMERIC);
+											foreach ($output as $key => $value) {
+												if($value!=null){
+													if(((array_search($value,$bandarray)))!=true){
+														if($value >= 1000){
+															$value = $value/1000;
+															if(((array_search($value,$bandarray)))!=true){
+																$bandarray[$key]=$value;
+																echo "<option value=\"".$value."\">".$value."TB";
+															}
+														}else{
+															if(((array_search($value,$bandarray)))!=true){
+																$bandarray[$key]=$value;
+																echo "<option value=\"".$value."\">".$value."GB";
+															}
+														}
+													} 
+												}
+											}
+										?>		
+
 									</select>
+
+									Memory: 
+									<select name="memorysize">									
+									<?php
+											$hddarray=array();
+											
+											$hddcmd = "swipl -q -f notebook.pl -g \"forall(notebooks(BRAND,VERSION,CPUNO,GPCARD,HDD,MEMORY,WEIGTH,SCREEN,OS,PRICE),writeln([MEMORY]))\",halt";
+											$output = shell_exec($hddcmd);
+											$output = explode("[", $output);
+											foreach ($output as $key => $value) {
+												$output[$key]=str_replace("]", "", $value);
+											}
+											sort($output,SORT_NUMERIC);
+											foreach ($output as $key => $value) {
+												if($value!=null){
+													if(((array_search($value,$bandarray)))!=true){
+														if($value >= 1000){
+															$value = $value/1000;
+															if(((array_search($value,$bandarray)))!=true){
+																$bandarray[$key]=$value;
+																echo "<option value=\"".$value."\">".$value."TB";
+															}
+														}else{
+															if(((array_search($value,$bandarray)))!=true){
+																$bandarray[$key]=$value;
+																echo "<option value=\"".$value."\">".$value."GB";
+															}
+														}
+													} 
+												}
+											}
+										?>		
+
+									</select>
+
 									น้ำหนัก :
 									<select name="weith">
-										<option value="a">a
-										<option value="a">a
-										<option value="a">a
+										<option value="1.0-2.0">1.0 - 2.0 KG
+										<option value="2.1-3.0">2.1 - 3.0 KG
+										<option value="3.1-4.0">3.1 - 4.0 KG
 									</select>
+
 									ขนาดจอ : 
+
 									<select name="screen">
-										<option value="a">a
-										<option value="a">a
-										<option value="a">a
+
+										<?php
+											$screenarray=array();
+											$screencmd = "swipl -q -f notebook.pl -g \"forall(notebooks(BRAND,VERSION,CPUNO,GPCARD,HDD,MEMORY,WEIGTH,SCREEN,OS,PRICE),writeln([SCREEN]))\",halt";
+											$output = shell_exec($screencmd);
+											$output = explode("[", $output);
+											foreach ($output as $key => $value) {
+												$output[$key]=str_replace("]", "", $value);
+											}
+											sort($output,SORT_NUMERIC);
+											foreach ($output as $key => $value) {
+												if($value!=null){
+													if(((array_search($value,$bandarray)))!=true){
+															$bandarray[$key]=$value;
+															echo "<option value=\"".$value."\">".$value." N";
+															
+														
+													} 
+												}
+											}
+										?>		
+
 									</select>
+
+									<br>
 
 									ระบบปฏิบัติการ : 
 									<select name="os">
-										<option value="a">a
-										<option value="a">a
-										<option value="a">a
+										
+										<?php
+											$bandarray=array();
+											$bandcmd = "swipl -q -f notebook.pl -g \"forall(notebooks(BRAND,VERSION,CPUNO,GPCARD,HDD,MEMORY,WEIGTH,SCREEN,OS,PRICE),writeln([OS]))\",halt";
+											$output = shell_exec($bandcmd);
+											$output = explode("[", $output);
+											foreach ($output as $key => $value) {
+												$output[$key]=str_replace("]", "", $value);
+											}
+											foreach ($output as $key => $value) {
+												if($output[$key]!=null){
+													//echo "<option value=\"a\">a";
+													if(((array_search($output[$key],$bandarray)))!=true){
+														$bandarray[$key]=$output[$key];
+														echo "<option value=\"".$bandarray[$key]."\">".$bandarray[$key];
+													} 
+												}
+											}
+										?>		
+
 									</select>
 
 									ราคา : 
 									<select name="price">
-										<option value="a">a
-										<option value="a">a
-										<option value="a">a
+
+										<option value="5000.0-10000">5,000.0 - 10,000 B
+										<option value="10000.0-20000">10,000.0 - 20,000 B
+										<option value="20000.0-30000">20,000.0 - 30,000 B
+										<option value="40000.0-50000">40,000.0 - 50,000 B
+										<option value="50000.0-60000">50,000.0 - 60,000 B
+										<option value="60000.0-70000">60,000.0 - 70,000 B
+										<option value="70000.0-80000">70,000.0 - 80,000 B
+										<option value="80000.0-90000">80,000.0 - 90,000 B
+										<option value="90000.0-100000">90,000.0 - 100,000 B
+
 									</select>
 								</form>
 							</center>
 						</fieldset>
+						<?php
+							$cmd = "swipl -q -f notebook.pl -g \"forall(notebooks(BRAND,VERSION,CPUNO,GPCARD,HDD,MEMORY,WEIGTH,SCREEN,OS,PRICE),writeln([PRICE]))\",halt";
+							$output = shell_exec($cmd);
+							$output = explode("[", $output);
+							$countoutput = count($output)-2;
+							echo "<center><br>จำนวน Notebook ที่มี : ".$countoutput." รุ่น <center><br><hr width = 80%>";
+						?>
 					</td>
 				</tr>
 			</table>
-
 	</body>
 </html>
