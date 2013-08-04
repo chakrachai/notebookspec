@@ -171,9 +171,9 @@
 									น้ำหนัก :
 									<select name="weith">
 										echo "<option value="-">-
-										<option value="1.0-2.0">1.0 - 2.0 KG
-										<option value="2.1-3.0">2.1 - 3.0 KG
-										<option value="3.1-4.0">3.1 - 4.0 KG
+										<option value="1000-2000">1.0 - 2.0 KG
+										<option value="2000-3000">2.1 - 3.0 KG
+										<option value="3000-4000">3.1 - 4.0 KG
 									</select>
 
 									ขนาดจอ : 
@@ -299,8 +299,47 @@
 					$price="PRICE";
 				}
 				if($_POST['submit']=="ยืนยัน"){
-					echo "1".$band."2".$cpu."3".$graphic."4".$hdd."5".$memory."6".$weith."7".$screen."8".$os."9".$price;
+					if($weith!="WEITH"||$price!="PRICE"){
+						$weithout = explode("-",$weith);
+						$priceout = explode("-", $price);
+						echo $weithout[0].",".$weithout[1].",".$priceout[0].",".$priceout[1]."<br>";
+						if($weith!="WEITH"){
+							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspeck(".$band.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith.")),writeln([".$weith.",".$price."]))\",halt";
+						}elseif ($price!="PRICE") {
+							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspeck(".$band.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$weith.",".$price."]))\",halt";
+						}else{
+							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspeck(".$band.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith."),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$weith.",".$price."]))\",halt";
+						}
+					}else{
+						$cmd = "swipl -q -f notebook.pl -g \"forall(notebookspeck(".$band.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),writeln([".$weith.",".$price."]))\",halt";
+					}
+					$output = shell_exec($cmd);
+	                print_r($output);
 				}
+
+				function cutarray($output){
+				    $printout = explode(",)]", $output);
+				    print_r($printout);
+				    $arrprint =array();
+				    echo "<hr>";
+				    foreach ($printout as $key => $value) {
+			        	$printout[$key]=str_replace("[", "", $value);
+			      	}
+			      	foreach ($printout as $key => $value) {
+			        	$arrprint[$key] = explode(",",$value);
+			      	}
+			      	return $arrprint;
+			    }
+
+			    function readarray($re){
+			    	foreach ($re as $key => $value) {
+			        	echo "<hr>data".$key."<br>";
+			        	foreach ($value as $m => $value2) {
+			          		echo $value2."<br>";
+			        	}
+			      	}
+			      	echo "<br>hello<hr>";
+			    }
 			?>
 
 	</body>
