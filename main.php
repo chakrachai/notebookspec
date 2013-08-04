@@ -17,7 +17,7 @@
 							<center>กรอกข้อมูลตามที่ต้องการ
 								<form method="post" action="#">
 									ค่ายผูจำหน่าย : 
-									<select name="cpu">
+									<select name="band">
 
 									<?php
 											$bandarray=array();
@@ -34,6 +34,8 @@
 														$bandarray[$key]=$output[$key];
 														echo "<option value=\"".$bandarray[$key]."\">".$bandarray[$key];
 													} 
+												}else{
+													echo "<option value=\"-\">-";
 												}
 											}
 										?>										
@@ -58,6 +60,8 @@
 														echo "<option value=\"".$output[$key]."\">".$output[$key];
 														$arrprint[$key]=$output[$key];
 													} 
+												}else{
+													echo "<option value=\"-\">-";
 												}
 											}
 										?>
@@ -65,7 +69,7 @@
 
 									การ์ดจอ : 
 
-									<select name="gp">
+									<select name="graphic">
 										<?php
 											$gpcmd = "swipl -q -f notebook.pl -g \"forall(gpcard(GPBRAND,GPNO,GPSIZE),writeln([GPBRAND,GPNO]))\",halt.";
 											$output = shell_exec($gpcmd);
@@ -82,6 +86,8 @@
 														echo "<option value=\"".$output[$key]."\">".$output[$key];
 														$arrprint[$key]=$output[$key];
 													} 
+												}else{
+													echo "<option value=\"-\">-";
 												}
 											}
 										?>
@@ -90,7 +96,7 @@
 									<br>
 
 									ความจุ HDD: 
-									<select name="hddsize">
+									<select name="hdd">
 									
 									<?php
 											$hddarray=array();
@@ -118,6 +124,8 @@
 															}
 														}
 													} 
+												}else{
+													echo "<option value=\"-\">-";
 												}
 											}
 										?>		
@@ -125,7 +133,7 @@
 									</select>
 
 									Memory: 
-									<select name="memorysize">									
+									<select name="memory">									
 									<?php
 											$hddarray=array();
 											
@@ -152,6 +160,8 @@
 															}
 														}
 													} 
+												}else{
+													echo "<option value=\"-\">-";
 												}
 											}
 										?>		
@@ -160,6 +170,7 @@
 
 									น้ำหนัก :
 									<select name="weith">
+										echo "<option value="-">-
 										<option value="1.0-2.0">1.0 - 2.0 KG
 										<option value="2.1-3.0">2.1 - 3.0 KG
 										<option value="3.1-4.0">3.1 - 4.0 KG
@@ -183,9 +194,9 @@
 													if(((array_search($value,$bandarray)))!=true){
 															$bandarray[$key]=$value;
 															echo "<option value=\"".$value."\">".$value." N";
-															
-														
-													} 
+													}
+												}else{
+													echo "<option value=\"-\">-";
 												}
 											}
 										?>		
@@ -212,6 +223,8 @@
 														$bandarray[$key]=$output[$key];
 														echo "<option value=\"".$bandarray[$key]."\">".$bandarray[$key];
 													} 
+												}else{
+													echo "<option value=\"-\">-";
 												}
 											}
 										?>		
@@ -220,16 +233,16 @@
 
 									ราคา : 
 									<select name="price">
-
-										<option value="5000.0-10000">5,000.0 - 10,000 B
-										<option value="10000.0-20000">10,000.0 - 20,000 B
-										<option value="20000.0-30000">20,000.0 - 30,000 B
-										<option value="40000.0-50000">40,000.0 - 50,000 B
-										<option value="50000.0-60000">50,000.0 - 60,000 B
-										<option value="60000.0-70000">60,000.0 - 70,000 B
-										<option value="70000.0-80000">70,000.0 - 80,000 B
-										<option value="80000.0-90000">80,000.0 - 90,000 B
-										<option value="90000.0-100000">90,000.0 - 100,000 B
+										<option value="-">-
+										<option value="0-10000">0 - 10,000 B
+										<option value="10000-20000">10,000 - 20,000 B
+										<option value="20000-30000">20,000 - 30,000 B
+										<option value="40000-50000">40,000 - 50,000 B
+										<option value="50000-60000">50,000 - 60,000 B
+										<option value="60000-70000">60,000 - 70,000 B
+										<option value="70000-80000">70,000 - 80,000 B
+										<option value="80000-90000">80,000 - 90,000 B
+										<option value="90000-100000">90,000 - 100,000 B
 
 									</select>
 
@@ -249,9 +262,44 @@
 			</table>
 
 			<?php
-				
+				$band = $_POST['band'];
+				$cpu = $_POST['cpu'];
+				$graphic = $_POST['graphic'];
+				$hdd = $_POST['hdd'];
+				$memory = $_POST['memory'];
+				$weith = $_POST['weith'];
+				$screen = $_POST['screen'];
+				$os = $_POST['os'];
+				$price = $_POST['price'];
+				if($band=='-'){
+					$band = "BRAND";
+				}
+				if ($cpu=='-') {
+					$cpu = "CPU";
+				}
+				if ($graphic=='-') {
+					$graphic = "GRAPHIC";
+				}
+				if ($hdd == '-') {
+					$hdd = "HDD";
+				}
+				if ($memory=='-') {
+					$memory = "MEMORY";
+				}
+				if ($weith=='-') {
+					$weith="WEITH";
+				}
+				if ($screen=='-') {
+					$screen="SCREEN";
+				}
+				if ($os=='-') {
+					$os="OS";
+				}
+				if ($price=='-') {
+					$price="PRICE";
+				}
 				if($_POST['submit']=="ยืนยัน"){
-					echo "hello";
+					echo "1".$band."2".$cpu."3".$graphic."4".$hdd."5".$memory."6".$weith."7".$screen."8".$os."9".$price;
 				}
 			?>
 
