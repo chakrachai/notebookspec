@@ -352,25 +352,21 @@
 					      	if($i==1){
 					      		echo "<tr><td width =\" 33%\">";
 					      		echo "<center><image src = notebook.jpg width = 110 high = 110></center>";
-					      		foreach ($value as $m => $value2) {
-					        		echo "A<br>";
-					        	}
+					        	echo $value[0].$value[1]."<br>cpu : ".$value[2]." ".$value[3]."-".$value[4]." speed ".$value[5]."speed up ".$value[6]."case ".$value[7]."<br> Graphic : ".$value[8]." ".$value[9]. " ".$value[10]."<br>Memory : ".$value[11]."<br> น้ำหนัก : ".$value[12]."<br>หน้าจอ : ".$value[13]."<br>ระบบปฏิบัติการ : ".$value[14]."<br>ราคา : ".$value[15];
+					        		/*writeln(["0.$brand.",1VERSION,2CPUBRAND,3CPUNAME,".4$cpu.",5CPUSPEED,6CPUSPEEDUP,7CPUCASE,8GPBRAND,".
+					        			9$graphic.",10GPSIZE,".11$memory.",".12$weith.",".13$screen.",".14$os.",".15$price."]))\",halt";*/
 					        	echo "</td>";
 					      	}elseif ($i==3) {
 					      		echo "<td width =\" 33%\">";
 								echo "<center><image src = notebook.jpg width = 110 high = 110></center>";
-					      		foreach ($value as $m => $value2) {
-					        		echo "C<br>";
-					        	}
+								echo $value[0].$value[1]."<br>cpu : ".$value[2]." ".$value[3]."-".$value[4]." speed ".$value[5]."speed up ".$value[6]."case ".$value[7]."<br> Graphic : ".$value[8]." ".$value[9]. " ".$value[10]."<br>Memory : ".$value[11]."<br> น้ำหนัก : ".$value[12]."<br>หน้าจอ : ".$value[13]."<br>ระบบปฏิบัติการ : ".$value[14]."<br>ราคา : ".$value[15];
 					        	echo "</td></tr>";
 					      		$i=0;
 					      	}elseif ($count==$key){
 					      		echo "";
 					      	}else{
 					      		echo "<td width =\" 33%\"><center><image src = notebook.jpg width = 110 high = 110></center>";
-					      		foreach ($value as $m => $value2) {
-					        		echo "B<br>";
-					        	}
+								echo $value[0].$value[1]."<br>cpu : ".$value[2]." ".$value[3]."-".$value[4]." speed ".$value[5]."speed up ".$value[6]."case ".$value[7]."<br> Graphic : ".$value[8]." ".$value[9]. " ".$value[10]."<br>Memory : ".$value[11]."<br> น้ำหนัก : ".$value[12]."<br>หน้าจอ : ".$value[13]."<br>ระบบปฏิบัติการ : ".$value[14]."<br>ราคา : ".$value[15];
 					        	echo "</td>";
 					      	}
 			    		}
