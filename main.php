@@ -17,7 +17,7 @@
 							<center>กรอกข้อมูลตามที่ต้องการ
 								<form method="post" action="#">
 									ค่ายผูจำหน่าย : 
-									<select name="band">
+									<select name="brand">
 
 									<?php
 											$bandarray=array();
@@ -262,7 +262,7 @@
 			</table>
 
 			<?php
-				$band = $_POST['band'];
+				$brand = $_POST['brand'];
 				$cpu = $_POST['cpu'];
 				$graphic = $_POST['graphic'];
 				$hdd = $_POST['hdd'];
@@ -271,8 +271,9 @@
 				$screen = $_POST['screen'];
 				$os = $_POST['os'];
 				$price = $_POST['price'];
-				if($band=='-'){
-					$band = "BRAND";
+				$cmd="";
+				if($brand=='-'){
+					$brand = "BRAND";
 				}
 				if ($cpu=='-') {
 					$cpu = "CPU";
@@ -302,26 +303,38 @@
 					if($weith!="WEITH"||$price!="PRICE"){
 						$weithout = explode("-",$weith);
 						$priceout = explode("-", $price);
+
 						echo $weithout[0].",".$weithout[1].",".$priceout[0].",".$priceout[1]."<br>";
-						if($weith!="WEITH"){
-							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspeck(".$band.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith.")),writeln([".$weith.",".$price."]))\",halt";
-						}elseif ($price!="PRICE") {
-							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspeck(".$band.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$weith.",".$price."]))\",halt";
+						if($weith!="WEITH"&&$price=="PRICE"){
+							$weith = "WEITH";
+							$price = "PRICE";
+							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith.")),writeln([".$weith.",".$price."]))\",halt";
+							echo $cmd;
+						}elseif ($weith=="WEITH"&&$price!="PRICE") {
+							$weith = "WEITH";
+							$price = "PRICE";
+							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$weith.",".$price."]))\",halt";
+							echo $cmd;
+						}elseif($weith!="WEITH"&&$price!="PRICE"){
+							$weith = "WEITH";
+							$price = "PRICE";
+							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith."),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$weith.",".$price."]))\",halt";
+							echo $cmd;
 						}else{
-							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspeck(".$band.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith."),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$weith.",".$price."]))\",halt";
+							
 						}
 					}else{
-						$cmd = "swipl -q -f notebook.pl -g \"forall(notebookspeck(".$band.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),writeln([".$weith.",".$price."]))\",halt";
+						$cmd = "swipl -q -f notebook.pl -g \"forall(notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),writeln([".$brand.",VERSION,CPUBRAND,CPUNAME,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
 					}
 					$output = shell_exec($cmd);
-	                print_r($output);
+	                $anserset = cutarray($output);
+	                readarray($anserset);
+
 				}
 
 				function cutarray($output){
-				    $printout = explode(",)]", $output);
-				    print_r($printout);
+				    $printout = explode("]", $output);
 				    $arrprint =array();
-				    echo "<hr>";
 				    foreach ($printout as $key => $value) {
 			        	$printout[$key]=str_replace("[", "", $value);
 			      	}
@@ -333,12 +346,10 @@
 
 			    function readarray($re){
 			    	foreach ($re as $key => $value) {
-			        	echo "<hr>data".$key."<br>";
 			        	foreach ($value as $m => $value2) {
 			          		echo $value2."<br>";
 			        	}
 			      	}
-			      	echo "<br>hello<hr>";
 			    }
 			?>
 
