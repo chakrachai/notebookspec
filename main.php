@@ -53,11 +53,12 @@
 												$output[$key]=str_replace("]", "", $value);
 											}
 											foreach ($output as $key => $value) {
-												$output[$key]=str_replace(",", " ", $value);
+												$value2 = str_replace(","," ", $value);
+												$output[$key]=str_replace(",", "-", $value);
 												if($output[$key]!=null){
 													//echo "<option value=\"a\">a";
 													if(((array_search($output[$key], $arrprint)))!=true){
-														echo "<option value=\"".$output[$key]."\">".$output[$key];
+														echo "<option value=\"".$output[$key]."\">".$value2;
 														$arrprint[$key]=$output[$key];
 													} 
 												}else{
@@ -79,11 +80,12 @@
 												$output[$key]=str_replace("]", "", $value);
 											}
 											foreach ($output as $key => $value) {
-												$output[$key]=str_replace(",", " ", $value);
+												$value2 = str_replace(",", " ", $value);
+												$output[$key]=str_replace(",", "-", $value);
 												if($output[$key]!=null){
 													//echo "<option value=\"a\">a";
 													if(((array_search($output[$key], $arrprint)))!=true){
-														echo "<option value=\"".$output[$key]."\">".$output[$key];
+														echo "<option value=\"".$output[$key]."\">".$value2;
 														$arrprint[$key]=$output[$key];
 													} 
 												}else{
@@ -300,28 +302,127 @@
 					$price="PRICE";
 				}
 				if($_POST['submit']=="ยืนยัน"){
-					if($weith!="WEITH"||$price!="PRICE"){
+					if($weith!="WEITH"||$price!="PRICE"||$cpu!="CPU"||$graphic!="GRAPHIC"){
 						$weithout = explode("-",$weith);
 						$priceout = explode("-", $price);
-
-						echo $weithout[0].",".$weithout[1].",".$priceout[0].",".$priceout[1]."<br>";
-						if($weith!="WEITH"&&$price=="PRICE"){
-							$weith = "WEITH";
-							$price = "PRICE";
-							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith.")),writeln([".$brand.",VERSION,CPUBRAND,CPUNAME,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
-						}elseif ($weith=="WEITH"&&$price!="PRICE") {
-							$weith = "WEITH";
-							$price = "PRICE";
-							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$brand.",VERSION,CPUBRAND,CPUNAME,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
-						}elseif($weith!="WEITH"&&$price!="PRICE"){
-							$weith = "WEITH";
-							$price = "PRICE";
-							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith."),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$brand.",VERSION,CPUBRAND,CPUNAME,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
-						}else{
+						$cpuout = explode("-", $cpu);
+						$graphicout = explode("-", $graphic);							
+							if ($weith!="WEITH"&&$price!=="PRICE"&&$cpu!="CPU"&&$graphic!="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,CPUNO,".$graphicout[1].",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpuout[1].",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith."),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$brand.",VERSION,CPUBRAND,".$cpuout[1].",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphicout[1].",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
 							
-						}
+							}elseif($weith!="WEITH"&&$price!="PRICE"&&$cpu!="CPU"&&$graphic=="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,CPUNO,".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpuout[1].",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith."),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$brand.",VERSION,CPUBRAND,".$cpuout[1].",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							}elseif($weith!="WEITH"&&$price!="PRICE"&&$cpu=="CPU"&&$graphic!="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,CPUNO,".$graphicout[1].",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith."),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$brand.",VERSION,CPUBRAND,".$cpu.",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphicout[1].",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							
+							}elseif ($weith!="WEITH"&&$price!="PRICE"&&$cpu=="CPU"&&$graphic=="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,CPUNO,".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith."),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$brand.",VERSION,CPUBRAND,".$cpu.",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							
+							}elseif($weith!="WEITH"&&$price=="PRICE"&&$cpu!="CPU"&&$graphic!="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,CPUNO,".$graphicout[1].",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpuout[1].",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith.")),writeln([".$brand.",VERSION,CPUBRAND,".$cpuout[1].",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphicout[1].",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							
+							}elseif($weith!="WEITH"&&$price=="PRICE"&&$cpu!="CPU"&&$graphic=="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,CPUNO,".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpuout[1].",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith.")),writeln([".$brand.",VERSION,CPUBRAND,".$cpuout[1].",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							
+							}elseif ($weith!="WEITH"&&$price=="PRICE"&&$cpu=="CPU"&&$graphic!="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,CPUNO,".$graphicout[1].",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith.")),writeln([".$brand.",VERSION,CPUBRAND,".$cpu.",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphicout[1].",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							
+							}elseif($weith!="WEITH"&&$price=="PRICE"&&$cpu=="CPU"&&$graphic=="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,CPUNO,".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith.")),writeln([".$brand.",VERSION,CPUBRAND,".$cpu.",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+
+							}elseif($weith=="WEITH"&&$price!="PRICE"&&$cpu!="CPU"&&$graphic!="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,CPUNO,".$graphicout[1].",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpuout[1].",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$brand.",VERSION,CPUBRAND,".$cpuout[1].",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphicout[1].",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							
+							}elseif($weith=="WEITH"&&$price!="PRICE"&&$cpu!="CPU"&&$graphic=="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,CPUNO,".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpuout[1].",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$brand.",VERSION,CPUBRAND,".$cpuout[1].",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							
+							}elseif($weith=="WEITH"&&$price!="PRICE"&&$cpu=="CPU"&&$graphic!="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,CPUNO,".$graphicout[1].",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$brand.",VERSION,CPUBRAND,".$cpu.",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphicout[1].",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							}elseif($weith=="WEITH"&&$price!="PRICE"&&$cpu=="CPU"&&$graphic=="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,CPUNO,".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$brand.",VERSION,CPUBRAND,".$cpu.",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							}elseif($weith=="WEITH"&&$price=="PRICE"&&$cpu!="CPU"&&$graphic!="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall(notebookspec(".$brand.",VERSION,CPUNO,".$graphicout[1].",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpuout[1].",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),writeln([".$brand.",VERSION,CPUBRAND,".$cpuout[1].",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphicout[1].",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							}elseif($weith=="WEITH"&&$price=="PRICE"&&$cpu!="CPU"&&$graphic=="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall(notebookspec(".$brand.",VERSION,CPUNO,".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpuout[1].",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),writeln([".$brand.",VERSION,CPUBRAND,".$cpuout[1].",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							}elseif($weith=="WEITH"&&$price=="PRICE"&&$cpu=="CPU"&&$graphic!="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall(notebookspec(".$brand.",VERSION,CPUNO,".$graphicout[1].",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),writeln([".$brand.",VERSION,CPUBRAND,".$cpu.",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphicout[1].",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							}elseif($weith=="WEITH"&&$price=="PRICE"&&$cpu=="CPU"&&$graphic=="GRAPHIC"){
+								$weith = "WEITH";
+								$price = "PRICE";
+								$cpu = "CPU";
+								$graphic = "GRAPHIC";
+								$cmd = "swipl -q -f notebook.pl -g \"forall(notebookspec(".$brand.",VERSION,CPUNO,".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),writeln([".$brand.",VERSION,CPUBRAND,".$cpu.",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+							}else{
+								echo "12";
+								
+							}
+
+//======================================================================================================================
+						
+//=====================================================================================================================
+
 					}else{
-						$cmd = "swipl -q -f notebook.pl -g \"forall(notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),writeln([".$brand.",VERSION,CPUBRAND,CPUNAME,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
+						$cmd = "swipl -q -f notebook.pl -g \"forall(notebookspec(".$brand.",VERSION,CPUNO,".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),writeln([".$brand.",VERSION,CPUBRAND,CPUNAME,CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
 					}
 					$output = shell_exec($cmd);
 	                $anserset = cutarray($output);
@@ -344,6 +445,11 @@
 			    function readarray($re){
 			    	$i=0;
 			    	$count = count($re)-1;
+	                if($count<1){
+	                	echo "ไม่พบข้อมูลที่ต้องการ กรุณาเลือกข้อมูลอีกครั้ง";
+	                }else{
+	                	echo "พบ".$count."รายการ";
+	                }
 			    	//print_r($re);
 			    	echo "<table width =\"100%\" align = \" center\">";
 			    	foreach ($re as $key => $value) {
