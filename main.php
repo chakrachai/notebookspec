@@ -254,7 +254,7 @@
 							$cmd = "swipl -q -f notebook.pl -g \"forall(notebooks(BRAND,VERSION,CPUNO,GPCARD,HDD,MEMORY,WEIGTH,SCREEN,OS,PRICE),writeln([PRICE]))\",halt";
 							$output = shell_exec($cmd);
 							$output = explode("[", $output);
-							$countoutput = count($output)-2;
+							$countoutput = count($output)-1;
 							echo "<center><br>จำนวน Notebook ที่มี : ".$countoutput." รุ่น <center><br><hr width = 80%>";
 						?>
 					</td>
@@ -308,18 +308,15 @@
 						if($weith!="WEITH"&&$price=="PRICE"){
 							$weith = "WEITH";
 							$price = "PRICE";
-							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith.")),writeln([".$weith.",".$price."]))\",halt";
-							echo $cmd;
+							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith.")),writeln([".$brand.",VERSION,CPUBRAND,CPUNAME,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
 						}elseif ($weith=="WEITH"&&$price!="PRICE") {
 							$weith = "WEITH";
 							$price = "PRICE";
-							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$weith.",".$price."]))\",halt";
-							echo $cmd;
+							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$brand.",VERSION,CPUBRAND,CPUNAME,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
 						}elseif($weith!="WEITH"&&$price!="PRICE"){
 							$weith = "WEITH";
 							$price = "PRICE";
-							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith."),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$weith.",".$price."]))\",halt";
-							echo $cmd;
+							$cmd = "swipl -q -f notebook.pl -g \"forall((notebookspec(".$brand.",VERSION,".$cpu.",".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),between(".$weithout[0].",".$weithout[1].",".$weith."),between(".$priceout[0].",".$priceout[1].",".$price.")),writeln([".$brand.",VERSION,CPUBRAND,CPUNAME,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price."]))\",halt";
 						}else{
 							
 						}
@@ -345,13 +342,42 @@
 			    }
 
 			    function readarray($re){
+			    	$i=0;
+			    	$count = count($re)-1;
+			    	//print_r($re);
+			    	echo "<table width =\"100%\" align = \" center\">";
 			    	foreach ($re as $key => $value) {
-			        	foreach ($value as $m => $value2) {
-			          		echo $value2."<br>";
-			        	}
+			    		if($count!=$key){
+							$i=$i+1;
+					      	if($i==1){
+					      		echo "<tr><td width =\" 33%\">";
+					      		echo "<center><image src = notebook.jpg width = 110 high = 110></center>";
+					      		foreach ($value as $m => $value2) {
+					        		echo "A<br>";
+					        	}
+					        	echo "</td>";
+					      	}elseif ($i==3) {
+					      		echo "<td width =\" 33%\">";
+								echo "<center><image src = notebook.jpg width = 110 high = 110></center>";
+					      		foreach ($value as $m => $value2) {
+					        		echo "C<br>";
+					        	}
+					        	echo "</td></tr>";
+					      		$i=0;
+					      	}elseif ($count==$key){
+					      		echo "";
+					      	}else{
+					      		echo "<td width =\" 33%\"><center><image src = notebook.jpg width = 110 high = 110></center>";
+					      		foreach ($value as $m => $value2) {
+					        		echo "B<br>";
+					        	}
+					        	echo "</td>";
+					      	}
+			    		}
 			      	}
+			      	echo "</table>";
+			      	echo "";
 			    }
 			?>
-
 	</body>
 </html>
