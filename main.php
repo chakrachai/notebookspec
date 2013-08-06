@@ -277,29 +277,29 @@
 				if($brand=='-'){
 					$brand = "BRAND";
 				}else{
-					$brandprint= "ค่ายผูจำหน่ายคือ : ".$brand;
+					$brandprint= "ค่ายผูจำหน่ายคือ ".$brand;
 				}
 				if ($cpu=='-') {
 					$cpu = "CPU";
 				}else{
-					$cpuprint = "CPU : ".$cpu;
+					$cpuprint = "CPU ".$cpu;
 				}
 				if ($graphic=='-') {
 					$graphic = "GRAPHIC";
 				}else{
-					$graphicprint = "graphic : ".$graphic;
+					$graphicprint = "graphic ".$graphic;
 				}
 				if ($hdd == '-') {
 					$hdd = "HDD";
 				}else{
 					if(ereg("TB", $hdd))
 					$hdd = $hdd*1000;
-					$hddprint = "ความจุ : ".$hdd;
+					$hddprint = "ความจุ ".$hdd;
 				}
 				if ($memory=='-') {
 					$memory = "MEMORY";
 				}else{
-					$memoryprint = "memory : ".$memory;
+					$memoryprint = "memory ".$memory;
 				}
 				if ($weith=='-') {
 					$weith="WEITH";
@@ -310,12 +310,12 @@
 				if ($screen=='-') {
 					$screen="SCREEN";
 				}else{
-					$screenprint = "ขนาดจอ : ".$screen." นิ้ว";
+					$screenprint = "ขนาดจอ ".$screen." นิ้ว";
 				}
 				if ($os=='-') {
 					$os="OS";
 				}else{
-					$osprint = "ระบบปฏิบัติการ : ".$os;
+					$osprint = "ระบบปฏิบัติการ ".$os;
 				}
 				if ($price=='-') {
 					$price="PRICE";
@@ -333,9 +333,9 @@
 				}
 				if($_POST['submit']=="ยืนยัน"){
 					if($brand=="BRAND"&&$cpu=="CPU"&&$graphic=="GRAPHIC"&&$hdd=="HDD"&&$memory=="MEMORY"&&$weith=="WEITH"&&$screen=="SCREEN"&&$os=="OS"&&$price=="PRICE"){
-						echo "<font color=blue size = 4>ค้นหาข้อมูลทั้งหมดที่มี</font>";
+						echo "<font color=blue size = 2>ค้นหาข้อมูลทั้งหมดที่มี</font>";
 					}else{
-						echo "<font color=blue size = 4>ข้อมูลที่่ต้องการคือ".$brandprint.$cpuprint.$graphicprint.$hddprint.$memoryprint.$weithprint.$screenprint.$osprint.$priceprint."</font>";
+						echo "<font color=blue size = 2>ข้อมูลที่่ต้องการคือ ".$brandprint.$cpuprint.$graphicprint.$hddprint.$memoryprint.$weithprint.$screenprint.$osprint.$priceprint."</font>";
 					}
 					if($weith!="WEITH"||$price!="PRICE"||$cpu!="CPU"||$graphic!="GRAPHIC"){
 						$weithout = explode("-",$weith);
@@ -448,7 +448,7 @@
 								$graphic = "GRAPHIC";
 								$cmd = "swipl -q -f notebook.pl -g \"forall(notebookspec(".$brand.",VERSION,CPUNO,".$graphic.",".$hdd.",".$memory.",".$weith.",".$screen.",".$os.",".$price.",CPUBRAND,".$cpu.",CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE),writeln([".$brand.",VERSION,CPUBRAND,".$cpu.",CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,".$graphic.",GPSIZE,".$memory.",".$weith.",".$screen.",".$os.",".$price.",".$hdd."]))\",halt";
 							}else{
-								echo "12";
+								echo "";
 								
 							}
 
@@ -462,6 +462,7 @@
 					$output = shell_exec($cmd);
 	                $anserset = cutarray($output);
 	                readarray($anserset);
+	               // echo $cmd;
 	                //print_r($anserset);
 
 				}
