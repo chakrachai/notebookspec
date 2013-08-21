@@ -90,8 +90,8 @@ notebook('toshiba','Satellite U840W-1002','3317U','hD_Graphics4000',500,6,1570,1
 notebook('toshiba','Satellite L840-1021X','3110M','radeonHD7670',640,4,2200,14,'dos',30900).
 notebook('toshiba','Portege Z930-20060T','3667U','hD_Graphics4000',128,4,1120,13.3,'windows7',52990).
 notebook('toshiba','Qosmio F770-1006XT','2670M','geForceGTX560M',1500,8,2800,15.6,'windows7',71900).
-
-%========================================rule===================================
+%endnotebook
+%========================================cpu===================================
 %cpu(CPUBRAND,CPUNAME,CPUNUMBER,CPUSPEED,CPUSPEEDUP,CPUCASE).
 
 cpu('intel','pentium','B2020','2.4GHz','-','2MB L3').
@@ -132,14 +132,13 @@ cpu('intel','coreSolo','SU2700','1.3GHz','-','2MB L2').
 cpu('intel','corei3','370M','2.4GHz','-','3MB L3').
 cpu('intel','corei7','2670M','2.2GHz','3.1GHz','6MB L3').
 cpu('intel','corei7','3667U','2GHz','3.2GHz','4MB L3').
-
 cpu('amd','sempron','210U','-','-','-').
 cpu('amd','athlonX2','P320','2.1GHz','-','1MB L2').
 cpu('amd','athlon64','L110','1.2GHz','-','-').
 cpu('amd','a4','3305M','1.4GHz','-','1MB L2').
 cpu('amd','e2','2000','1.8GHz','-','1MB L2').
 cpu('amd','e-Series','E-450','1.65GHz','-','1MB L2').
-
+%endcpu
 %==============================GPCARD========================
 
 %card(GPBRAND,GPNO,GPSIZE).
@@ -157,24 +156,20 @@ card('nVidia','geForceGT710M','2GB').
 card('nVidia','geForceGT740M','2GB').
 card('nVidia','geForceGT745M','2GB').
 card('nVidia','geForceGT620M','2GB').
-
 card('nVidia','geForceGTX560M','2GB').
 card('nVidia','geForceGTX570M','1.5GB').
 card('nVidia','geForceGTX660M','2GB').
 card('nVidia','geForceGTX670M','3GB').
 card('nVidia','geForceGTX680M','2GB').
 card('nVidia','geForceGT660X','2GB').
-
 card('intel','accelerator4500MHD','-').
 card('intel','accelerator4500M','256MB').
 card('intel','gMA','-').
-
 card('intel','hD_Graphics3000','-').
 card('intel','hD_Graphics4000','-').
 card('intel','hD_Graphics4400','-').
 card('intel','hD_Graphics4500M','-').
 card('intel','hD_Graphics5000','-').
-
 card('ati','radeonX1270','-').
 card('ati','radeonHD4330','512MB').
 card('ati','radeonHD5430','-').
@@ -189,8 +184,8 @@ card('ati','radeonHD6730M','1GB').
 card('ati','radeonHD6320','-').
 card('ati','radeonHD8750M','1GB').
 card('ati','radeonHD7670','2GB').
-
 card('sis','m672','-').
+%endgraphic
 
 notebooks(BRAND,VERSION,CPUNO,GPCARD,HDD,MEMORY,WEIGTH,SCREEN,OS,PRICE) :- 
 	  notebook(BRAND,VERSION,CPUNO,GPCARD,HDD,MEMORY,WEIGTH,SCREEN,OS,PRICE).
@@ -203,3 +198,4 @@ gpcard(GPBRAND,GPNO,GPSIZE) :-
 
 notebookspec(BRAND,VERSION,CPUNO,GPCARD,HDD,MEMORY,WEIGTH,SCREEN,OS,PRICE,CPUBRAND,CPUNAME,CPUSPEED,CPUSPEEDUP,CPUCASE,GPBRAND,GPSIZE) :-
   		notebooks(BRAND,VERSION,CPUNO,GPCARD,HDD,MEMORY,WEIGTH,SCREEN,OS,PRICE),cpus(CPUBRAND,CPUNAME,CPUNO,CPUSPEED,CPUSPEEDUP,CPUCASE),gpcard(GPBRAND,GPCARD,GPSIZE).
+allcpu :- forall(notebooks(BRAND,VERSION,CPUNO,GPCARD,HDD,MEMORY,WEIGTH,SCREEN,OS,PRICE),writeln([BRAND])).
