@@ -257,7 +257,7 @@
 							$output = shell_exec($cmd);
 							$output = explode("[", $output);
 							$countoutput = count($output)-1;
-							echo "<center><br>จำนวน Notebook ที่มี : ".$countoutput." รุ่น <center><br><hr width = 80%>";
+							echo "<center><br>จำนวน Notebook ที่มี : ".$countoutput." รุ่น <a href=input.php>เพิ่มข้อมูล</a><center><br><hr width = 80%>";
 						?>
 					</td>
 				</tr>
